@@ -18,4 +18,18 @@ campus.get("/:id", async(req, res, next) => {
     }
 });
 
+campus.post("/:id", async(req, res, next) => {
+    try {
+        await Campuses.create({
+            name: req.body.name,
+            address: req.body.address,
+            description : req.body.description
+        })
+        res.status(201).send("New campus added successfully");
+
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
+
 module.exports = campus;

@@ -18,4 +18,18 @@ student.get("/:id", async(req, res, next) => {
     }
 });
 
+student.post("/:id", async(req, res, next) => {
+    try {
+        await Students.create({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email : req.body.email,
+            gpa: req.body.gpa
+        })
+        res.status(201).send("New student added successfully");
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
+
 module.exports = student;
