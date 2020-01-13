@@ -45,7 +45,8 @@ campus.get("/:id/students", async(req, res) => {
         res.status(400).send(err);
     }
 })
-campus.post("/:id", async(req, res) => {
+//create new campus
+campus.post("/", async(req, res) => {
     try {
         await Campuses.create({
             name: req.body.name,
@@ -53,6 +54,22 @@ campus.post("/:id", async(req, res) => {
             description : req.body.description
         })
         res.status(201).send("New campus added successfully");
+
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
+//update campus with id
+campus.put("/:id", async(req, res) => {
+    try {
+
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
+//delete campus with id
+campus.delete("/:id", async(req, res) => {
+    try {
 
     } catch(err) {
         res.status(400).send(err);
