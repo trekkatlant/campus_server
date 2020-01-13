@@ -17,7 +17,6 @@ student.get("/:id", async(req, res, next) => {
         res.status(400).send(err);
     }
 });
-
 student.post("/:id", async(req, res, next) => {
     try {
         await Students.create({
@@ -31,5 +30,12 @@ student.post("/:id", async(req, res, next) => {
         res.status(400).send(err);
     }
 });
+student.delete("/:id", async(req, res, next) => {
+    try {
+        let data = await Students.findOne({ where: { id: req.params.id }});
+    } catch(err) {
+        res.status(400).send(err);
+    }
+})
 
 module.exports = student;

@@ -1,11 +1,26 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const campus = express.Router();
-const Campuses = require("../database/models/campus");
+const db = require("../database/db");
+const { Campuses, Students } = require("../database/models");
 
 campus.use(bodyParser.json());
 
-campus.get("/:id", async(req, res, next) => {
+//gets all campuses
+campus.get("/", async(req, res) => {
+    try {
+        let data = await Campuses.findAll();
+        if(data) {
+            res.status(200).json(data);
+        } else {
+            res.status(400).send("No campuses")
+        }
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
+//gets a campus with id
+campus.get("/:id", async(req, res) => {
     try {
         let data = await Campuses.findOne({ where: { id: req.params.id }});
         if(data) {
@@ -17,8 +32,20 @@ campus.get("/:id", async(req, res, next) => {
         res.status(400).send(err);
     }
 });
-
-campus.post("/:id", async(req, res, next) => {
+//get all students from campus with id
+campus.get("/:id/students", async(req, res) => {
+    try {
+        let data = await Campuses.findOne({ where: {id: req.params.id}, include: [{Students}]})
+        if(data) {
+            res.status(200).json(data);
+        } else {
+            res.status(400).send("Campus has no students");
+        }
+    } catch(err) {
+        res.status(400).send(err);
+    }
+})
+campus.post("/:id", async(req, res) => {
     try {
         await Campuses.create({
             name: req.body.name,
