@@ -57,6 +57,14 @@ student.post("/", async(req, res) => {
         res.status(400).send(err);
     }
 });
+//uodate student with id
+// student.put("/:id", async(req, res) => {
+//     try {
+
+//     } catch(err) {
+//         res.status(400).send(err);
+//     }
+// })
 //delete student with id
 student.delete("/:id", async(req, res) => {
     try {

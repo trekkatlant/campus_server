@@ -59,13 +59,13 @@ campus.post("/", async(req, res) => {
     }
 });
 //update campus with id
-campus.put("/:id", async(req, res) => {
-    try {
+// campus.put("/:id", async(req, res) => {
+//     try {
 
-    } catch(err) {
-        res.status(400).send(err);
-    }
-});
+//     } catch(err) {
+//         res.status(400).send(err);
+//     }
+// });
 //delete campus with id
 campus.delete("/:id", async(req, res) => {
     try {
