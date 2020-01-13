@@ -70,7 +70,9 @@ campus.put("/:id", async(req, res) => {
 //delete campus with id
 campus.delete("/:id", async(req, res) => {
     try {
-
+        await Campuses.destroy({ where: {id: req.params.id }});
+        res.status(200).send("Delete successful");
+        
     } catch(err) {
         res.status(400).send(err);
     }

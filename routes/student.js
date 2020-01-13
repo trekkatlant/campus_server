@@ -48,7 +48,8 @@ student.post("/", async(req, res, next) => {
 //delete student with id
 student.delete("/:id", async(req, res, next) => {
     try {
-        let data = await Students.findOne({ where: { id: req.params.id }});
+        await Students.destroy({ where: { id: req.params.id }});
+        res.status(200).send("Delete successful");
     } catch(err) {
         res.status(400).send(err);
     }
