@@ -8,11 +8,15 @@ app.use(cors());
 app.use("/students", students);
 app.use("/campuses", campuses);
 let port = process.env.PORT || 3000;
-
-db.sync({ force: true });
+// app.get("/campuses", (req,res) => {
+//     res.status(200).send("deos thsi work");
+// })
+// db.sync({ force: true });
 app.get("/", (req, res) => {
     res.status(200).send("Default API route, nothing to see here");
 });
+
+
 app.listen(port, () => {
     console.log("Server is listening on localhost:" + {port});
 });

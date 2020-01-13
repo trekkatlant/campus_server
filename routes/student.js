@@ -6,15 +6,16 @@ student.use(bodyParser.json());
 
 //get all students
 student.get("/", async(req, res) => {
+    console.log("regbmg")
     try {
         let data = await Students.findAll();
         if(data) {
-            res.status(200).send(data);
+            res.status(200).json(data);
         } else {
             res.status(400).send("No students");
         }
     } catch(err) {
-        res.status(400).send(err);
+        res.status(400).json(err);
     }
 });
 //get student with id
@@ -31,7 +32,7 @@ student.get("/:id", async(req, res) => {
     }
 });
 //get campus with student's id
-Students.get("/:id/campus", async(req, res) => {
+student.get("/:id/campus", async(req, res) => {
     try {
         let data = await Students.findOne({ where: { id: req.params.id }, include: [{ Campuses }]});
         if(data) {
@@ -44,15 +45,20 @@ Students.get("/:id/campus", async(req, res) => {
     }
 })
 //create new student
-student.post("/", async(req, res) => {
+student.post("/add", async(req, res) => {
     try {
-        await Students.create({
+        let data = await Students.create({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email : req.body.email,
             gpa: req.body.gpa
         })
-        res.status(201).send("New student added successfully");
+        if(data) {
+            res.status(201).send("New student added successfully");
+        } else {
+            res.status(400).send("Student not added")
+        }
+        
     } catch(err) {
         res.status(400).send(err);
     }

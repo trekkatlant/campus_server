@@ -45,17 +45,19 @@ campus.get("/:id/students", async(req, res) => {
     }
 })
 //create new campus
-campus.post("/", async(req, res) => {
+campus.post("/", async(req, res, next) => {
+    // res.json({test: "asdasd"})
     try {
-        await Campuses.create({
+        // res.json({"dsada":"dasdafas"})
+        Campuses.create({
             name: req.body.name,
             address: req.body.address,
             description : req.body.description
-        })
-        res.status(201).send("New campus added successfully");
+        });
+        res.json("New campus added successfully");
 
     } catch(err) {
-        res.status(400).send(err);
+        res.json(err);
     }
 });
 //update campus with id
