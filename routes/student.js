@@ -5,6 +5,20 @@ const Students = require("../database/models/student");
 
 student.use(bodyParser.json());
 
+//get all students
+student.get("/", async(req, res) => {
+    try {
+        let data = await Students.findAll();
+        if(data) {
+            res.status(200).send(data);
+        } else {
+            res.status(400).send("No students");
+        }
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
+//get student with id
 student.get("/:id", async(req, res, next) => {
     try {
         let data = await Students.findOne({ where: { id: req.params.id }});
@@ -17,7 +31,8 @@ student.get("/:id", async(req, res, next) => {
         res.status(400).send(err);
     }
 });
-student.post("/:id", async(req, res, next) => {
+//create new student
+student.post("/", async(req, res, next) => {
     try {
         await Students.create({
             firstName: req.body.firstName,
@@ -30,6 +45,7 @@ student.post("/:id", async(req, res, next) => {
         res.status(400).send(err);
     }
 });
+//delete student with id
 student.delete("/:id", async(req, res, next) => {
     try {
         let data = await Students.findOne({ where: { id: req.params.id }});
