@@ -1,8 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const student = express.Router();
-const Students = require("../database/models/student");
-
+const { Campuses, Students } = require("../database/models");
 student.use(bodyParser.json());
 
 //get all students
@@ -19,7 +18,7 @@ student.get("/", async(req, res) => {
     }
 });
 //get student with id
-student.get("/:id", async(req, res, next) => {
+student.get("/:id", async(req, res) => {
     try {
         let data = await Students.findOne({ where: { id: req.params.id }});
         if(data) {
@@ -31,8 +30,21 @@ student.get("/:id", async(req, res, next) => {
         res.status(400).send(err);
     }
 });
+//get campus with student's id
+Students.get("/:id/campus", async(req, res) => {
+    try {
+        let data = await Students.findOne({ where: { id: req.params.id }, include: [{ Campuses }]});
+        if(data) {
+            res.status(200).json(data);
+        } else {
+            res.status(400).send("Student isn't in a campus");
+        }
+    } catch(err) {
+        res.status(400).send(err);
+    }
+})
 //create new student
-student.post("/", async(req, res, next) => {
+student.post("/", async(req, res) => {
     try {
         await Students.create({
             firstName: req.body.firstName,
@@ -46,7 +58,7 @@ student.post("/", async(req, res, next) => {
     }
 });
 //delete student with id
-student.delete("/:id", async(req, res, next) => {
+student.delete("/:id", async(req, res) => {
     try {
         await Students.destroy({ where: { id: req.params.id }});
         res.status(200).send("Delete successful");
