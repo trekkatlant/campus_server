@@ -5,19 +5,23 @@ const app = express();
 const cors = require("cors");
 const db = require("./database");
 app.use(cors());
-app.use("/students", students);
-app.use("/campuses", campuses);
+app.use(`/students`, students);
+app.use(`/campuses`, campuses);
 let port = process.env.PORT || 3000;
 // app.get("/campuses", (req,res) => {
 //     res.status(200).send("deos thsi work");
 // })
-// db.sync({ force: true });
-app.get("/", (req, res) => {
-    res.status(200).send("Default API route, nothing to see here");
+
+// app.get("/", (req, res) => {
+//     res.status(200).send("Default API route, nothing to see here");
+// });
+
+db.sync({force:true})
+.then(() => {
+    app.listen(port, () => {
+        console.log("Server is listening on localhost:" + port);
+    });
+    
 });
 
-
-app.listen(port, () => {
-    console.log("Server is listening on localhost:" + {port});
-});
 

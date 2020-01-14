@@ -1,18 +1,18 @@
-const express = require("express");
 const bodyParser = require("body-parser");
-const campus = express.Router();
+const campus = require("express").Router();
 const db = require("../database/db");
-const { Campuses, Students } = require("../database/models");
+const { Campus, Student } = require("../database/models");
 campus.use(bodyParser.json());
 
 //gets all campuses
-campus.get("/", async(req, res) => {
+campus.get('/', async(req, res) => {
+    console.log("fwrffw")
     try {
-        let data = await Campuses.findAll();
+        let data = await Campus.findAll();
         if(data) {
             res.status(200).json(data);
         } else {
-            res.status(400).send("No campuses")
+            res.status(400).send(err)
         }
     } catch(err) {
         res.status(400).send(err);
@@ -21,11 +21,11 @@ campus.get("/", async(req, res) => {
 //gets a campus with id
 campus.get("/:id", async(req, res) => {
     try {
-        let data = await Campuses.findOne({ where: { id: req.params.id }});
+        let data = await Campus.findOne({ where: { id: req.params.id }});
         if(data) {
             res.status(200).json(data);
         } else {
-            res.status(400).send("Campus not found");
+            res.status(400).json("Campus not found");
         }
     } catch(err) {
         res.status(400).send(err);
@@ -34,7 +34,7 @@ campus.get("/:id", async(req, res) => {
 //get all students from campus with id
 campus.get("/:id/students", async(req, res) => {
     try {
-        let data = await Campuses.findOne({ where: {id: req.params.id}, include: [{Students}]})
+        let data = await Campus.findOne({ where: {id: req.params.id}, include: [{Students}]})
         if(data) {
             res.status(200).json(data);
         } else {
@@ -45,19 +45,25 @@ campus.get("/:id/students", async(req, res) => {
     }
 })
 //create new campus
-campus.post("/", async(req, res, next) => {
-    // res.json({test: "asdasd"})
+campus.post('/', async(req, res, next) => {
+    //res.json({test: "asdasd"})
+    console.log(req.body);
     try {
         // res.json({"dsada":"dasdafas"})
-        Campuses.create({
-            name: req.body.name,
-            address: req.body.address,
+        let data = await Campus.create({
+            name : req.body.name,
+            imageUrl: req.body.imageUrl,
+            address : req.body.address,
             description : req.body.description
-        });
-        res.json("New campus added successfully");
+        })
+        if(data) {
+            res.status(201).json("New campus added successfully");
+        } else {
+            res.status(400).json("lalala");
+        }
 
     } catch(err) {
-        res.json(err);
+        res.status(400).json(err);
     }
 });
 //update campus with id
@@ -71,9 +77,12 @@ campus.post("/", async(req, res, next) => {
 //delete campus with id
 campus.delete("/:id", async(req, res) => {
     try {
-        await Campuses.destroy({ where: {id: req.params.id }});
-        res.status(200).send("Delete successful");
-        
+        let data = await Campus.destroy({ where: {id: req.params.id }});
+        if(data) {
+            res.status(200).send("Delete successful");
+        } else {
+            res.status(400).send("Delete unsuccessful");
+        }
     } catch(err) {
         res.status(400).send(err);
     }

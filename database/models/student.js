@@ -22,7 +22,8 @@ const Student = db.define("student", {
         type: Sequelize.DECIMAL(10,1),
         allowNull: false
     }
-},{
+},
+{
     timestamps: false
 });
 

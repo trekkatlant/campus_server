@@ -18,7 +18,8 @@ const Campus = db.define("campus", {
         type: Sequelize.STRING,
         allowNull: false
     }
-},{
+},
+{
     timestamps: false
 });
 

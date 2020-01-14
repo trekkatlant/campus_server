@@ -1,14 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const student = express.Router();
-const { Campuses, Students } = require("../database/models");
+const { Campus, Student } = require("../database/models");
 student.use(bodyParser.json());
 
 //get all students
 student.get("/", async(req, res) => {
     console.log("regbmg")
     try {
-        let data = await Students.findAll();
+        let data = await Student.findAll({attributes: {exclude: ["campusId"]}});
         if(data) {
             res.status(200).json(data);
         } else {
@@ -21,7 +21,7 @@ student.get("/", async(req, res) => {
 //get student with id
 student.get("/:id", async(req, res) => {
     try {
-        let data = await Students.findOne({ where: { id: req.params.id }});
+        let data = await Student.findOne({ where: { id: req.params.id }, attributes: {exclude: ["campusId"]}});
         if(data) {
             res.status(200).json(data);
         } else {
@@ -34,7 +34,7 @@ student.get("/:id", async(req, res) => {
 //get campus with student's id
 student.get("/:id/campus", async(req, res) => {
     try {
-        let data = await Students.findOne({ where: { id: req.params.id }, include: [{ Campuses }]});
+        let data = await Student.findOne({ where: { id: req.params.id }, include: [{ Campus }]});
         if(data) {
             res.status(200).json(data);
         } else {
@@ -45,12 +45,13 @@ student.get("/:id/campus", async(req, res) => {
     }
 })
 //create new student
-student.post("/add", async(req, res) => {
+student.post("/", async(req, res) => {
     try {
-        let data = await Students.create({
+        let data = await Student.create({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email : req.body.email,
+            imageUrl : req.body.imageUrl,
             gpa: req.body.gpa
         })
         if(data) {
@@ -74,8 +75,12 @@ student.post("/add", async(req, res) => {
 //delete student with id
 student.delete("/:id", async(req, res) => {
     try {
-        await Students.destroy({ where: { id: req.params.id }});
-        res.status(200).send("Delete successful");
+        let data = await Student.destroy({ where: { id: req.params.id }});
+        if(data) {
+            res.status(200).send("Delete successful");
+        } else {
+            res.status(400).send("Delete unsuccessful");
+        }   
     } catch(err) {
         res.status(400).send(err);
     }
