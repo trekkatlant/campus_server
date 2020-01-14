@@ -74,7 +74,8 @@ campus.put("/:id", async(req, res) => {
             imageUrl: req.body.imageUrl,
             address: req.body.address,
             description: req.body.description
-        })
+        },
+        { where: {id: req.params.id}})
         if(data) {
             res.status(200).json("Update successful");
         } else {

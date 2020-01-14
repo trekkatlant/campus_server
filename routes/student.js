@@ -54,6 +54,7 @@ student.post("/", async(req, res) => {
             imageUrl : req.body.imageUrl,
             gpa: req.body.gpa
         })
+        await data.setCampus(req.body.campus);
         if(data) {
             res.status(201).send("New student added successfully");
         } else {
@@ -73,7 +74,8 @@ student.put("/:id", async(req, res) => {
             email : req.body.email,
             imageUrl : req.body.imageUrl,
             gpa : req.body.gpa
-        })
+        },
+        { where: {id: req.params.id}})
         if(data) {
             res.status(200).json("Update successful");
         } else {

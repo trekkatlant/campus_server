@@ -5,9 +5,10 @@ const router = require("./routes/index");
 const app = express();
 const cors = require("cors");
 const db = require("./database");
+const seedDatabase = require("./seed/index")
 // app.use(`/students`, students);
 // app.use(`/campuses`, campuses);
-let port = process.env.PORT || 4000;
+let PORT = process.env.PORT || 4000;
 // app.get("/campuses", (req,res) => {
 //     res.status(200).send("deos thsi work");
 // })
@@ -18,9 +19,10 @@ let port = process.env.PORT || 4000;
 
 db.sync({force:true})
 .then(async () => {
+    seedDatabase();
     app.use(cors());
     app.use("/api", router);
-    app.listen(port, () => {
+    app.listen(PORT, () => {
         console.log("Server is listening on port" + PORT);
     });
 });

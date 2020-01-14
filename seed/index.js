@@ -3,7 +3,7 @@ const Campus = require("../database/models/campus");
 const students = require("./student");
 const campuses = require("./campus");
 
-populateCampusesTable = async (campuses) => {
+const populateCampusesTable = async (campuses) => {
     for(let i=0; i<campuses.length; i++) {
         let body = campuses[i];
         let data = await Campus.create({
@@ -14,7 +14,7 @@ populateCampusesTable = async (campuses) => {
         })
     }
 };
-populateStudentsTable = async (students) => {
+const populateStudentsTable = async (students) => {
     for(let i=0; i<students.length; i++) {
         let body = students[i];
         let data = await Student.create({
@@ -26,7 +26,7 @@ populateStudentsTable = async (students) => {
         })
     }
 };
-seedDatabase = async () => {
+const seedDatabase = async () => {
     try {
         await populateCampusesTable(campuses);
         await populateStudentsTable(students);
@@ -36,4 +36,4 @@ seedDatabase = async () => {
     }
 };
 
-module.exports = index;
+module.exports = seedDatabase;
