@@ -43,7 +43,7 @@ student.get("/:id/campus", async(req, res) => {
     } catch(err) {
         res.status(400).send(err);
     }
-})
+});
 //create new student
 student.post("/", async(req, res) => {
     try {
@@ -64,14 +64,25 @@ student.post("/", async(req, res) => {
         res.status(400).send(err);
     }
 });
-//uodate student with id
-// student.put("/:id", async(req, res) => {
-//     try {
-
-//     } catch(err) {
-//         res.status(400).send(err);
-//     }
-// })
+//update student with id
+student.put("/:id", async(req, res) => {
+    try {
+        let data = await Student.update({
+            firstName: req.body.firstName,
+            lastName : req.body.lastName,
+            email : req.body.email,
+            imageUrl : req.body.imageUrl,
+            gpa : req.body.gpa
+        })
+        if(data) {
+            res.status(200).json("Update successful");
+        } else {
+            res.status(400).json("Update unsuccessful");
+        }
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
 //delete student with id
 student.delete("/:id", async(req, res) => {
     try {
@@ -84,6 +95,6 @@ student.delete("/:id", async(req, res) => {
     } catch(err) {
         res.status(400).send(err);
     }
-})
+});
 
 module.exports = student;

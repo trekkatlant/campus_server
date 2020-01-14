@@ -1,13 +1,13 @@
 const express = require("express");
-const students = require("./routes/student");
-const campuses = require("./routes/campus");
+const router = require("./routes/index");
+// const students = require("./routes/student");
+// const campuses = require("./routes/campus");
 const app = express();
 const cors = require("cors");
 const db = require("./database");
-app.use(cors());
-app.use(`/students`, students);
-app.use(`/campuses`, campuses);
-let port = process.env.PORT || 3000;
+// app.use(`/students`, students);
+// app.use(`/campuses`, campuses);
+let port = process.env.PORT || 4000;
 // app.get("/campuses", (req,res) => {
 //     res.status(200).send("deos thsi work");
 // })
@@ -17,11 +17,12 @@ let port = process.env.PORT || 3000;
 // });
 
 db.sync({force:true})
-.then(() => {
+.then(async () => {
+    app.use(cors());
+    app.use("/api", router);
     app.listen(port, () => {
-        console.log("Server is listening on localhost:" + port);
+        console.log("Server is listening on port" + PORT);
     });
-    
 });
 
 

@@ -43,7 +43,7 @@ campus.get("/:id/students", async(req, res) => {
     } catch(err) {
         res.status(400).send(err);
     }
-})
+});
 //create new campus
 campus.post('/', async(req, res, next) => {
     //res.json({test: "asdasd"})
@@ -59,7 +59,7 @@ campus.post('/', async(req, res, next) => {
         if(data) {
             res.status(201).json("New campus added successfully");
         } else {
-            res.status(400).json("lalala");
+            res.status(400).json("not added");
         }
 
     } catch(err) {
@@ -67,21 +67,31 @@ campus.post('/', async(req, res, next) => {
     }
 });
 //update campus with id
-// campus.put("/:id", async(req, res) => {
-//     try {
-
-//     } catch(err) {
-//         res.status(400).send(err);
-//     }
-// });
+campus.put("/:id", async(req, res) => {
+    try {
+        let data = await Campus.update({
+            name: req.body.name,
+            imageUrl: req.body.imageUrl,
+            address: req.body.address,
+            description: req.body.description
+        })
+        if(data) {
+            res.status(200).json("Update successful");
+        } else {
+            res.status(400).json("Updata unsuccessful");
+        }
+    } catch(err) {
+        res.status(400).send(err);
+    }
+});
 //delete campus with id
 campus.delete("/:id", async(req, res) => {
     try {
         let data = await Campus.destroy({ where: {id: req.params.id }});
         if(data) {
-            res.status(200).send("Delete successful");
+            res.status(200).json("Delete successful");
         } else {
-            res.status(400).send("Delete unsuccessful");
+            res.status(400).json("Delete unsuccessful");
         }
     } catch(err) {
         res.status(400).send(err);
