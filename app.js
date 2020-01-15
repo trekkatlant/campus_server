@@ -5,7 +5,6 @@ const router = require("./routes/index");
 const app = express();
 const cors = require("cors");
 const db = require("./database");
-const bodyParser = require("body-parser");
 const seedDatabase = require("./seed/index")
 // app.use(`/students`, students);
 // app.use(`/campuses`, campuses);
