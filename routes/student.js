@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const student = express.Router();
 const { Campus, Student } = require("../database/models");
 student.use(bodyParser.json());
-const db = require("../database/db");
 
 //get all students
 student.get("/", async(req, res) => {
@@ -16,7 +15,7 @@ student.get("/", async(req, res) => {
             res.status(400).send("No students");
         }
     } catch(err) {
-        res.status(400).send(err);
+        res.status(400).json(err);
     }
 });
 //get student with id
@@ -55,7 +54,7 @@ student.post("/", async(req, res) => {
             imageUrl : req.body.imageUrl,
             gpa: req.body.gpa
         })
-        // await data.setCampus(req.body.campus);
+        await data.setCampus(req.body.campus);
         if(data) {
             res.status(201).send("New student added successfully");
         } else {
@@ -78,9 +77,9 @@ student.put("/:id", async(req, res) => {
         },
         { where: {id: req.params.id}})
         if(data) {
-            res.status(200).send(data[1]);
+            res.status(200).json("Update successful");
         } else {
-            res.status(400).send("Update unsuccessful");
+            res.status(400).json("Update unsuccessful");
         }
     } catch(err) {
         res.status(400).send(err);

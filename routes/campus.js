@@ -2,7 +2,6 @@ const bodyParser = require("body-parser");
 const campus = require("express").Router();
 const db = require("../database/db");
 const { Campus, Student } = require("../database/models");
-const db = require("../database/db");
 campus.use(bodyParser.json());
 
 //gets all campuses
@@ -26,7 +25,7 @@ campus.get("/:id", async(req, res) => {
         if(data) {
             res.status(200).json(data);
         } else {
-            res.status(400).send("Campus not found");
+            res.status(400).json("Campus not found");
         }
     } catch(err) {
         res.status(400).send(err);
@@ -58,13 +57,13 @@ campus.post('/', async(req, res, next) => {
             description : req.body.description
         })
         if(data) {
-            res.status(201).send("New campus added successfully");
+            res.status(201).json("New campus added successfully");
         } else {
-            res.status(400).send("not added");
+            res.status(400).json("not added");
         }
 
     } catch(err) {
-        res.status(400).send(err);
+        res.status(400).json(err);
     }
 });
 //update campus with id
@@ -78,9 +77,9 @@ campus.put("/:id", async(req, res) => {
         },
         { where: {id: req.params.id}})
         if(data) {
-            res.status(200).send(data[1]);
+            res.status(200).json("Update successful");
         } else {
-            res.status(400).send("Updata unsuccessful");
+            res.status(400).json("Updata unsuccessful");
         }
     } catch(err) {
         res.status(400).send(err);
@@ -91,9 +90,9 @@ campus.delete("/:id", async(req, res) => {
     try {
         let data = await Campus.destroy({ where: {id: req.params.id }});
         if(data) {
-            res.status(200).send("Delete successful");
+            res.status(200).json("Delete successful");
         } else {
-            res.status(400).send("Delete unsuccessful");
+            res.status(400).json("Delete unsuccessful");
         }
     } catch(err) {
         res.status(400).send(err);
