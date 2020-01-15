@@ -33,18 +33,18 @@ student.get("/:id", async(req, res) => {
     }
 });
 //get campus with student's id
-student.get("/:id/campus", async(req, res) => {
-    try {
-        let data = await Student.findOne({ where: { id: req.params.id }, include: [{ Campus }]});
-        if(data) {
-            res.status(200).json(data);
-        } else {
-            res.status(400).send("Student isn't in a campus");
-        }
-    } catch(err) {
-        res.status(400).send(err);
-    }
-});
+// student.get("/:id/campus", async(req, res) => {
+//     try {
+//         let data = await Student.findOne({ where: { id: req.params.id }, include: [{ Campus }]});
+//         if(data) {
+//             res.status(200).json(data);
+//         } else {
+//             res.status(400).send("Student isn't in a campus");
+//         }
+//     } catch(err) {
+//         res.status(400).send(err);
+//     }
+// });
 //create new student
 student.post("/", async(req, res) => {
     try {
