@@ -2,7 +2,6 @@ const bodyParser = require("body-parser");
 const campus = require("express").Router();
 const db = require("../database/db");
 const { Campus, Student } = require("../database/models");
-const db = require("../database/db");
 campus.use(bodyParser.json());
 
 //gets all campuses

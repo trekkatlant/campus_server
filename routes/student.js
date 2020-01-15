@@ -53,9 +53,10 @@ student.post("/", async(req, res) => {
             lastName: req.body.lastName,
             email : req.body.email,
             imageUrl : req.body.imageUrl,
-            gpa: req.body.gpa
+            gpa: req.body.gpa,
+            // campusId : req.body.campusId
         })
-        // await data.setCampus(req.body.campus);
+        await data.setCampus(req.body.campusId);
         if(data) {
             res.status(201).send("New student added successfully");
         } else {
