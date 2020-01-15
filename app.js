@@ -17,7 +17,7 @@ let PORT = process.env.PORT || 4000;
 //     res.status(200).send("Default API route, nothing to see here");
 // });
 
-db.sync({})
+db.sync({force : true})
 .then(async () => {
     seedDatabase();
     app.use(cors());
