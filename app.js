@@ -21,7 +21,6 @@ db.sync({force : true})
 .then(async () => {
     seedDatabase();
     app.use(cors());
-    app.use(bodyParser.urlencoded({ extended: false }));
     app.use("/api", router);
     app.listen(PORT, () => {
         console.log("Server is listening on port" + PORT);
