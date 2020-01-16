@@ -3,6 +3,9 @@ const Campus = require("../database/models/campus");
 const students = require("./student");
 const campuses = require("./campus");
 
+function getRandomInt(max) {
+    return Math.floor((Math.random() * Math.floor(max))+1);
+}
 const populateCampusesTable = async (campuses) => {
     for(let i=0; i<campuses.length; i++) {
         let body = campuses[i];
@@ -24,6 +27,7 @@ const populateStudentsTable = async (students) => {
             imageUrl : body.imageUrl,
             gpa: body.gpa
         })
+        await data.setCampus(getRandomInt(3));
     }
 };
 const seedDatabase = async () => {
