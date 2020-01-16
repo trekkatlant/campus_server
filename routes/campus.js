@@ -6,7 +6,6 @@ campus.use(bodyParser.json());
 
 //gets all campuses
 campus.get('/', async(req, res) => {
-    console.log("fwrffw")
     try {
         let data = await Campus.findAll();
         if(data) {
@@ -46,7 +45,6 @@ campus.get("/:id/students", async(req, res) => {
 });
 //create new campus
 campus.post('/', async(req, res, next) => {
-    console.log(req.body);
     try {
         let data = await Campus.create({
             name : req.body.name,
